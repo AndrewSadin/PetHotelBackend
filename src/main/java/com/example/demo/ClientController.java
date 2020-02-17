@@ -22,18 +22,29 @@ public class ClientController {
         return new HashMap<String, List>(){{put("clients",clients);}};
     }
 
-    @GetMapping("{id}")
-    public Map<String,String> getClient(@PathVariable String id){
+    private Map<String,String> getClientById(@PathVariable String id){
         return clients.stream()
                 .filter(client -> client.get("id").equals(id))
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
     }
 
+    @GetMapping("{id}")
+    public Map<String,String> getClient(@PathVariable String id){
+        return getClientById(id);
+    }
+
     @PostMapping
     public Map<String,String> add(@RequestBody Map<String,String> client){
         client.put("id", String.valueOf(counter++));
         clients.add(client);
+        return client;
+    }
+
+    @DeleteMapping("{id}")
+    public Map<String,String> deleteClient(@PathVariable String id){
+        Map<String,String> client = getClientById(id);
+        clients.remove(client);
         return client;
     }
 

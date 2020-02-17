@@ -1,8 +1,7 @@
 package com.example.demo;
 
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -14,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
 import java.util.ArrayList;
@@ -60,5 +59,15 @@ public class ClientControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(client)));
+        this.mockMvc.perform(delete("/client/4")).andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$", is(client)));
     }
+
+//    @Test
+//    public void deleteClient() throws Exception {
+//        Map<String,String> client = new HashMap<String,String>(){{put("id","4");put("name", "John Doe");}};
+//
+//
+//    }
+
 }

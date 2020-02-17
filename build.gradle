@@ -1,3 +1,14 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath 'org.jooq:jooq-codegen:3.13.0'
+		classpath: 'org.postgresql:postgresql:42.2.10'
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.2.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
@@ -13,12 +24,32 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.jooq:jooq:3.13.0'
+	implementation 'org.postgresql:postgresql:42.2.10'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
 
-test {
-	useJUnitPlatform()
+def writer = new StringWriter()
+def xml = new groovy.xml.MarkupBuilder(writer)
+	.configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.13.0.xsd') {
+		jdbc() {
+			driver('org.postgresql.driver')
+			url('jdbc:postgresql://localhost:5432/petHotel')
+			user('pethotel')
+			password('pethotel')
+		}
+		generator() {
+			database() {
+			}
+			generate() {
+			}
+			target() {
+				packageName('com.example.demo.db')
+				directory('src/main/java')
+			}
+		}
 }
+org.jooq.codegen.GenerationTool.generate(writer.toString())
