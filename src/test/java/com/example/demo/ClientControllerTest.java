@@ -28,18 +28,18 @@ public class ClientControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void list() throws Exception {
-        List<Map<String,String>> clients = new ArrayList<Map<String,String>>(){{
-            add(new HashMap<String,String>(){{put("id","1");put("name", "Ivan");}});
-            add(new HashMap<String,String>(){{put("id","2");put("name", "Petya");}});
-            add(new HashMap<String,String>(){{put("id","3");put("name", "Semen");}});
-        }};
-
-        this.mockMvc.perform(get("/client")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.clients",hasSize(3)))
-                .andExpect(jsonPath("$.clients", containsInAnyOrder(clients.toArray())));
-    }
+//    @Test
+//    public void list() throws Exception {
+//        List<Map<String,String>> clients = new ArrayList<Map<String,String>>(){{
+//            add(new HashMap<String,String>(){{put("id","1");put("name", "Ivan");}});
+//            add(new HashMap<String,String>(){{put("id","2");put("name", "Petya");}});
+//            add(new HashMap<String,String>(){{put("id","3");put("name", "Semen");}});
+//        }};
+//
+//        this.mockMvc.perform(get("/client")).andDo(print()).andExpect(status().isOk())
+//                .andExpect(jsonPath("$.clients",hasSize(3)))
+//                .andExpect(jsonPath("$.clients", containsInAnyOrder(clients.toArray())));
+//    }
 
     @Test
     public void getClient() throws Exception {
